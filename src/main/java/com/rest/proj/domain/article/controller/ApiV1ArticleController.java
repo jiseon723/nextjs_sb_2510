@@ -8,24 +8,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/articles")
 public class ApiV1ArticleController {
+    private final ArticleService articleService;
 
     @GetMapping
     public List<Article> getArticles() {
-        List<Article> articles = new ArrayList<>();
+        List<Article> articles = articleService.getList();;
 
         return articles;
     }
 
     @GetMapping("/{id}")
     public Article getArticle (@PathVariable("id") Long id) {
-        Article article = new ArticleService().getArticle(id);
+        Article article = articleService.getArticle(id);
 
         return article;
     }
