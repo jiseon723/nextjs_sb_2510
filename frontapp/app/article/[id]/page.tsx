@@ -6,6 +6,7 @@ import Link from "next/link";
 export default function ArticleDetail() {
     const params = useParams();
     const [article, setArticle] = useState({});
+    const [member, setmember] = useState({});
 
     useEffect(() => {
     fetch(`http://localhost:8090/api/v1/articles/${params.id}`)
