@@ -51,11 +51,10 @@ public class MemberService {
 
     public RsData<AuthAndMakeTokensResponseBody> authAndMakeTokens(String username, String password) {
         Member member = memberRepository.findByUserName(username)
-                .orElseThrow(() -> new RuntimeException("사룔자가 존재하지 않습니다."));
+                .orElseThrow(() -> new RuntimeException("사용자가 존재하지 않습니다."));
 
         //시간 설정 및 토큰 생성
         String accessToken = jwtProvider.genToken(member, 60 * 60 * 5);
-        System.out.println("accessToken : " + accessToken);
 
         return RsData.of("200-1", "로그인 성공", new AuthAndMakeTokensResponseBody(member, accessToken));
     }
