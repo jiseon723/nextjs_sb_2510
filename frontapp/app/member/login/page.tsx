@@ -1,5 +1,6 @@
 "use client";
-import api from "@/app/utils/api"
+
+import api from "@/app/utils/api";
 import { useState } from "react";
 
 export default function Login() {
@@ -7,7 +8,6 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     await api.post("/members/login", user);
   };
 
