@@ -34,7 +34,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         // accessToken 검증 or refreshToken 발급
         if (!accessToken.isBlank()) {
-            if(!memberService.validateToken(accessToken)) {
+            if ( !memberService.validateToken(accessToken) ) {
                 String refreshToken = _getCookie("refreshToken");
                 RsData<String> rs = memberService.refreshAccessToken(refreshToken);
 
@@ -62,7 +62,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         resp.addHeader("Set-Cookie", cookie.toString());
     }
 
-    private String _getCookie(String name) {
+    private String _getCookie(String name){
         Cookie[] cookies = req.getCookies();
 
         return Arrays.stream(cookies)
@@ -71,4 +71,5 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 .map(Cookie::getValue)
                 .orElse("");
     }
+
 }

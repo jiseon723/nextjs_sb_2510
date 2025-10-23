@@ -33,27 +33,23 @@ public class ApiV1MemberController {
         private MemberDto memberDto;
     }
 
-     @PostMapping("/login")
-     public RsData<LoginResponseBody> login(@Valid @RequestBody LoginRequestBody loginRequestBody) {
-         // username, password => accessToken
-         RsData<MemberService.AuthAndMakeTokensResponseBody> authAndMakeTokensRs = memberService.authAndMakeTokens(loginRequestBody.getUsername(), loginRequestBody.getPassword());
+    @PostMapping("/login")
+    public RsData<LoginResponseBody> login(@Valid @RequestBody LoginRequestBody loginRequestBody) {
+        // username, password => accessToken
+        RsData<MemberService.AuthAndMakeTokensResponseBody> authAndMakeTokensRs = memberService.authAndMakeTokens(loginRequestBody.getUsername(), loginRequestBody.getPassword());
 
-         _addHeaderCookie("accessToken", authAndMakeTokensRs.getData().getAccessToken());
-         _addHeaderCookie("refreshToken", authAndMakeTokensRs.getData().getRefreshToken());
+        _addHeaderCookie("accessToken", authAndMakeTokensRs.getData().getAccessToken());
+        _addHeaderCookie("refreshToken", authAndMakeTokensRs.getData().getRefreshToken());
 
-         return RsData.of(
-                 authAndMakeTokensRs.getResultCode(),
-                 authAndMakeTokensRs.getMsg(),
-                 new LoginResponseBody(new MemberDto(authAndMakeTokensRs.getData().getMember()))
-         );
-     }
+        return RsData.of(authAndMakeTokensRs.getResultCode(), authAndMakeTokensRs.getMsg(), new LoginResponseBody(new MemberDto(authAndMakeTokensRs.getData().getMember())));
+    }
 
     @GetMapping("/me")
     public String me() {
-        return "내정보";
+        return "내 정보";
     }
 
-    private void _addHeaderCookie(String tokenName, String token){
+    private void _addHeaderCookie(String tokenName, String token) {
         ResponseCookie cookie = ResponseCookie
                 .from(tokenName, token)
                 .path("/")
