@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ApiV1MemberController {
     private final MemberService memberService;
+    private final HttpServletResponse resp;
 
     @Getter
     public static class LoginRequestBody {
@@ -33,18 +34,12 @@ public class ApiV1MemberController {
     }
 
      @PostMapping("/login")
-     public RsData<LoginResponseBody> login(@Valid @RequestBody LoginRequestBody loginRequestBody, HttpServletResponse resp) {
+     public RsData<LoginResponseBody> login(@Valid @RequestBody LoginRequestBody loginRequestBody) {
          // username, password => accessToken
          RsData<MemberService.AuthAndMakeTokensResponseBody> authAndMakeTokensRs = memberService.authAndMakeTokens(loginRequestBody.getUsername(), loginRequestBody.getPassword());
 
-         ResponseCookie cookie = ResponseCookie.from("accessToken", authAndMakeTokensRs.getData().getAccessToken())
-                 .path("/")
-                 .sameSite("None")
-                 .secure(true)
-                 .httpOnly(true)
-                 .build();
-
-         resp.addHeader("Set-Cookie", cookie.toString());
+         _addHeaderCookie("accessToken", authAndMakeTokensRs.getData().getAccessToken());
+         _addHeaderCookie("refreshToken", authAndMakeTokensRs.getData().getRefreshToken());
 
          return RsData.of(
                  authAndMakeTokensRs.getResultCode(),
@@ -52,8 +47,21 @@ public class ApiV1MemberController {
                  new LoginResponseBody(new MemberDto(authAndMakeTokensRs.getData().getMember()))
          );
      }
+
     @GetMapping("/me")
     public String me() {
         return "내정보";
+    }
+
+    private void _addHeaderCookie(String tokenName, String token){
+        ResponseCookie cookie = ResponseCookie
+                .from(tokenName, token)
+                .path("/")
+                .sameSite("None")
+                .secure(true)
+                .httpOnly(true)
+                .build();
+
+        resp.addHeader("Set-Cookie", cookie.toString());
     }
 }
