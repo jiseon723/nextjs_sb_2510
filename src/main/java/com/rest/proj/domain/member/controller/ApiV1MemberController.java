@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -47,5 +46,13 @@ public class ApiV1MemberController {
     @GetMapping("/me")
     public String me() {
         return "내 정보";
+    }
+
+    @PostMapping("/logout")
+    public RsData<Void> logout() {
+        rq.removeCrossDomainCookie("accessToken");
+        rq.removeCrossDomainCookie("refreshToken");
+
+        return RsData.of("200", "로그아웃 성공");
     }
 }
