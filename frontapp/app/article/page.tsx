@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import api from "../utils/api";
 
 export default function Article() {
   const [articles, setArticles] = useState([]);
@@ -11,23 +12,14 @@ export default function Article() {
   }, []);
 
   const fetchArticles = () => {
-    fetch("http://localhost:8090/api/v1/articles")
-      .then((result) => result.json())
-      .then((result) => setArticles(result.data.articles))
-      .catch((err) => console.error(err));
+    api
+      .get("/articles/")
+      .then((response) => setArticles(response.data.data.articles))
+      .catch((err) => console.log(err));
   };
 
-  const handleDelete = async () => {
-    const response = await fetch(`http://localhost:8090/api/v1/articles/${id}`, {
-      method: "DELETE"
-    });
-
-    if (response.oc) {
-      alert('succese');
-      fetchArticles();
-    } else {
-      alert("fail");
-    }
+  const handleDelete = async (id) => {
+    await api.delete(`/articles/${id}`);
   };
 
   return (
