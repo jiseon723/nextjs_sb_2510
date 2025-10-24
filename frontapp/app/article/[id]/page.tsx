@@ -1,16 +1,16 @@
-'use client'
+"use client";
+
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import api from "@/app/utils/api";
 
 export default function ArticleDetail() {
-    const params = useParams();
-    const [article, setArticle] = useState({});
-    const [member, setMember] = useState({});
+  const params = useParams();
+  const [article, setArticle] = useState({});
 
-    useEffect(() => {
-      api
+  useEffect(() => {
+    api
       .get(`/articles/${params.id}`)
       .then((response) => setArticle(response.data.data.article))
       .catch((err) => console.log(err));
