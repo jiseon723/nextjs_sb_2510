@@ -56,7 +56,7 @@ public class ApiSecurityConfig {
     }
 
     @Bean
-    private CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOrigin("http://localhost:3000"); // 허용할 출처 추가
         configuration.addAllowedOrigin("https://cdpn.io"); // 추가 허용 출처
