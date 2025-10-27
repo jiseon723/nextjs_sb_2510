@@ -22,11 +22,11 @@ public class NotProd {
             Member user2 = memberService.join("user2", password, "user2@test.com");
 
             //게시물 추가
-            articleService.create(admin,"제목1", "내용1");
-            articleService.create(user1,"제목2", "내용2");
-            articleService.create(user1,"제목3", "내용3");
-            articleService.create(user2,"제목4", "내용4");
-            articleService.create(user2,"제목5", "내용5");
+            articleService.create(admin, "제목1", "내용1");
+            articleService.create(user1, "제목2", "내용2");
+            articleService.create(user1, "제목3", "내용3");
+            articleService.create(user2, "제목4", "내용4");
+            articleService.create(user2, "제목5", "내용5");
         };
     }
 }

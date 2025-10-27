@@ -30,7 +30,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         // accessToken 검증 or refreshToken 발급
         if (!accessToken.isBlank()) {
-            if ( !memberService.validateToken(accessToken) ) {
+            if (!memberService.validateToken(accessToken)) {
                 String refreshToken = rq.getCookie("refreshToken");
                 RsData<String> rs = memberService.refreshAccessToken(refreshToken);
 

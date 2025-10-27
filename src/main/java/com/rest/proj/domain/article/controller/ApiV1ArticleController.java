@@ -24,12 +24,6 @@ public class ApiV1ArticleController {
     private final ArticleService articleService;
     private final Rq rq;
 
-    @Getter
-    @AllArgsConstructor
-    public static class ArticlesResponse {
-        private final List<ArticleDto> articles;
-    }
-
     @GetMapping
     public RsData<ArticlesResponse> getArticles() {
         List<ArticleDto> articles = articleService.getList()
@@ -38,12 +32,6 @@ public class ApiV1ArticleController {
                 .toList();
 
         return RsData.of("S-1", "성공", new ArticlesResponse(articles));
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class ArticleResponse {
-        private final ArticleDto article;
     }
 
     @GetMapping("/{id}")
@@ -59,21 +47,6 @@ public class ApiV1ArticleController {
         ));
     }
 
-    @Data
-    public static class WriteRequest {
-        @NotBlank
-        private  String subject;
-
-        @NotBlank
-        private  String content;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class WriteResponse {
-        private final ArticleDto article;
-    }
-
     @PostMapping("")
     public RsData<WriteResponse> write(@Valid @RequestBody WriteRequest writeRequest) {
         Member member = rq.getMember();
@@ -86,21 +59,6 @@ public class ApiV1ArticleController {
                 writeRs.getMsg(),
                 new WriteResponse(new ArticleDto(writeRs.getData()))
         );
-    }
-
-    @Data
-    public static class ModifyRequest {
-        @NotBlank
-        private String subject;
-
-        @NotBlank
-        private String content;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class ModifyResponse {
-        private final Article article;
     }
 
     @PatchMapping("/{id}")
@@ -122,12 +80,6 @@ public class ApiV1ArticleController {
         );
     }
 
-    @Getter
-    @AllArgsConstructor
-    public static class RemoveResponse {
-        private final Article article;
-    }
-
     @DeleteMapping("/{id}")
     public RsData<RemoveResponse> remove(@PathVariable("id") Long id) {
         Optional<Article> opArticle = articleService.findById(id);
@@ -145,5 +97,53 @@ public class ApiV1ArticleController {
                 deleteRs.getMsg(),
                 new RemoveResponse(deleteRs.getData())
         );
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ArticlesResponse {
+        private final List<ArticleDto> articles;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ArticleResponse {
+        private final ArticleDto article;
+    }
+
+    @Data
+    public static class WriteRequest {
+        @NotBlank
+        private  String subject;
+
+        @NotBlank
+        private  String content;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class WriteResponse {
+        private final ArticleDto article;
+    }
+
+    @Data
+    public static class ModifyRequest {
+        @NotBlank
+        private String subject;
+
+        @NotBlank
+        private String content;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class ModifyResponse {
+        private final Article article;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class RemoveResponse {
+        private final Article article;
     }
 }

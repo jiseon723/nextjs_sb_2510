@@ -1,7 +1,7 @@
-export default function Vision () {
-    return (
+export default function Vision() {
+  return (
     <>
-        <div>비전</div>
+      <div>비전</div>
     </>
-  );
+  )
 }

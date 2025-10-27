@@ -17,7 +17,7 @@ public class SecurityUser extends User {
         this.id = id;
     }
 
-    public Authentication getAuthentication () {
+    public Authentication getAuthentication() {
         Authentication auth = new UsernamePasswordAuthenticationToken(
                 this,
                 this.getPassword(),
