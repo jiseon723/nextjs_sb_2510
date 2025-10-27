@@ -35,10 +35,7 @@ public class ApiSecurityConfig {
                         csrf -> csrf
                                 .disable()
                 ) // csrf 토큰 끄기
-                .cors(
-                        cors -> cors
-                                .configurationSource(corsConfigurationSource())
-                )
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .httpBasic(
                         httpBasic -> httpBasic.disable()
                 ) // httpBasic 로그인 방식 끄기

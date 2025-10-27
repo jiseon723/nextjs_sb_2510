@@ -12,8 +12,8 @@ public class SecurityUser extends User {
     @Getter
     private Long id;
 
-    public SecurityUser(Long id, String userName, String password, List<GrantedAuthority> authorities) {
-        super(userName, password, authorities);
+    public SecurityUser(Long id, String username, String password, List<GrantedAuthority> authorities) {
+        super(username, password, authorities);
         this.id = id;
     }
 

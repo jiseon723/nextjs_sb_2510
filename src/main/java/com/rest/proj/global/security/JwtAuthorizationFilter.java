@@ -2,13 +2,12 @@ package com.rest.proj.global.security;
 
 import com.rest.proj.domain.member.service.MemberService;
 import com.rest.proj.global.rq.Rq;
-import com.rest.proj.global.rsData.RsData;
+import com.rest.proj.global.rsdata.RsData;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -36,7 +35,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         // accessToken 검증 or refreshToken 발급
         if (!accessToken.isBlank()) {
             if (!memberService.validateToken(accessToken)) {
-                String refreshToken = rq.getCookie("refreshToken");
+                String refreshToken = rq.getCookie(("refreshToken"));
                 RsData<String> rs = memberService.refreshAccessToken(refreshToken);
 
                 rq.setCrossDomainCookie("accessToken", rs.getData());
@@ -45,7 +44,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             SecurityUser securityUser = memberService.getUserFromAccessToken(accessToken);
 
             // 로그인 처리
-            SecurityContextHolder.getContext().setAuthentication(securityUser.getAuthentication());
+            rq.setLogin(securityUser);
         }
 
         filterChain.doFilter(request, response);

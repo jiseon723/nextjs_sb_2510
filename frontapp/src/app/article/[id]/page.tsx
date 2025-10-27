@@ -11,8 +11,7 @@ export default function ArticleDetail() {
 const getArticle = async () => {
     return await api
       .get(`/articles/${params.id}`)
-      .then((response) => setArticle(response.data.data.article))
-      .catch((err) => console.log(err))
+      .then((res) => res.data.data.article)
   }
 
   const { isLoading, error, data } = useQuery({
@@ -28,8 +27,11 @@ const getArticle = async () => {
     return (
       <>
         <h4>게시물 상세 {params.id}번</h4>
-        <div>{data.subject}</div>
-        <div>{data.author}</div>
+        <div>작성자 : {data.author}</div>
+        <div>제목 : {data.subject}</div>
+        <div>내용 : {data.content}</div>
+        <div>작성일 : {data.createdDate}</div>
+        <div>수정일 : {data.modifiedDate}</div>
         <Link href={`/article/${params.id}/edit`}>수정</Link>
       </>
     )
